@@ -1,0 +1,5 @@
+local lspconfig = require("lspconfig")
+lspconfig.pylsp.setup({})
+lspconfig.clangd.setup({})
+lspconfig.ruff.setup({})
+lspconfig.bashls.setup({})
