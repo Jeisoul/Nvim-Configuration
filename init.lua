@@ -99,7 +99,6 @@ map('n', '<leader>lk', ':VimtexStop<CR>', opts)
 map('n', '<leader>lc', ':VimtexClean!<CR>', opts)
 map('n', '<leader>lt', ':VimtexTocToggle<CR>', opts)
 map('n', '<leader>lv', ':VimtexView<CR>', opts)
-map('n', '<leader>le', ':VimtexView<CR>', opts)
 map('n', '<leader>le', ':VimtexErrors<CR>', opts)
 map('n', '<leader>ls', ':VimtexStatus<CR>', opts)
 map('n', 'tse', '<Plug>(vimtex-env-toggle-star)', opts)
@@ -253,3 +252,15 @@ vim.keymap.set("n", "<leader>fs", function()
     },
   })
 end, { desc = "Search LaTeX Snippets" })
+
+-- Nice UI polish
+opt.fillchars = { eob = " ", vert = '┆', horiz = '┈' }
+
+-- Optional: provider disabling
+for _, provider in ipairs({ "node", "perl", "python3", "ruby" }) do
+  vim.g["loaded_" .. provider .. "_provider"] = 0
+end
+
+
+-- Optional: tweak WinSeparator highlight
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffffff", bold = true })
