@@ -10,8 +10,20 @@ map('n', '<leader>c', ':bd<CR>', opts)
 -- Disable macro recording with 'q'
 map('n', 'q', '<Nop>', opts)
 
--- Insert mode: Ctrl+L => exit insert, zt, back to insert
-map("i", "<C-l>", "<Esc>zti", opts)
+-- Put the *display* (wrapped) line with the cursor at the very top.
+map("i", "<C-l>", function()
+  -- leave insert
+  vim.api.nvim_feedkeys("","i",false)
+
+  local r = vim.fn.winline()        -- cursor's current screen row (1 = top)
+  if r > 1 then
+    -- scroll window down r-1 lines so the cursor's screen row becomes 1
+    vim.cmd("normal! " .. (r - 1) .. "")
+  end
+
+  -- back to insert
+  vim.api.nvim_feedkeys("a", "n", false)
+end, opts)
 -- Copy entire file to system clipboard
 map('n', '<leader>y', 'ggVGy', opts)
 

@@ -30,6 +30,21 @@ The goal is a clean, modular configuration that I can extend or refactor easily.
 - `spell/` → Custom spellfile (added via `zg`)
 - `lua/helperfunc.lua` → Helper functions for snippets
 
+## Inspirations
+
+Parts of this configuration, especially the LuaSnip setup, were inspired by the
+official [LuaSnip documentation](https://github.com/L3MON4D3/LuaSnip) and
+[E.J. Mastnak’s LuaSnip tutorial](https://ejmastnak.com/tutorials/vim-latex/luasnip/).
+
+Snippets and helpers were written by me, though some follow common patterns
+demonstrated in those resources.
+
+---
+
+## 📜 License
+
+This configuration is released under the [MIT License](LICENSE) — feel free to use and adapt it.
+
 ---
 
 ## 🚀 Usage

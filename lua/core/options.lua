@@ -19,6 +19,7 @@ opt.mouse = ""
 opt.winborder = "rounded"
 opt.shortmess:append("Is")  
 opt.laststatus = 3
+opt.smoothscroll = true 
 opt.statusline = table.concat({
   "%r%h%q%w",        -- flags
   "%=",          -- separator (left/right)
