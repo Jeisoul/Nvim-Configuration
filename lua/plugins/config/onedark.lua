@@ -2,7 +2,6 @@ require('onedark').setup {
     style = 'deep',
     transparent = true,
 }
-require('onedark').load()
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
@@ -14,10 +13,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     hl(0, "texCmd",            { fg = "#a21caf", italic = true })
     hl(0, "texMathZoneEnv",    { fg = "#f9e2af", italic = true })
     hl(0, "texMathEnvArgName", { fg = "#fab387", italic = true })
-    hl(0, "texMathDelimZoneTI", { fg = "#ffffff"})
+    hl(0, "texMathDelimZoneTI",{ fg = "#ffffff"})
     hl(0, "texDelim",          { fg = "#7f8c8d"})
-
+    hl(0, "Comment",           { fg = "#5e7088", italic = true })
+    hl(0, "Normal", { fg = "#a8b6d4" })
   end,
 })
-vim.cmd.colorscheme("onedark")
+require('onedark').load()
 

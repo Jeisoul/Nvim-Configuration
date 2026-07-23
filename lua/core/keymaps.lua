@@ -45,27 +45,16 @@ map('n', '<leader>rn', ':set relativenumber!<CR>', opts)
 map('n', '<leader>md', ':cd /mnt/DATA/Masters<CR>', opts)
 map('n', '<leader>ml', ':cd ~/.config/nvim<CR>', opts)
 map('n', '<leader>me', ':cd /mnt/DATA/exercism<CR>', opts)
+map('n', '<leader>mt', ':cd /mnt/DATA/Notas<CR>', opts)
 
 -- Open init.lua and shoutout
 map('n', '<leader>mi', ':e ~/.config/nvim/init.lua<CR>', opts)
-map('n', '<leader>so', ':w | so | echo "Config reloaded!"<CR>', opts)
-
 -- Disable weird alt keys (optional, but may avoid accidental behavior)
 map({ 'n', 'i', 'v' }, '<M-c>', '<Nop>', opts)
 map({ 'n', 'i', 'v' }, '<M-v>', '<Nop>', opts)
 map({ 'n', 'i', 'v' }, '<M-Space>', '<Nop>', opts)
 map({ 'n', 'i', 'v' }, '<M-t>', '<Nop>', opts)
 map({ 'n', 'i', 'v' }, '<M-r>', '<Nop>', opts)
-
--- VimTeX
-map('n', '<leader>ll', ':VimtexCompile<CR>', opts)
-map('n', '<leader>lk', ':VimtexStop<CR>', opts)
-map('n', '<leader>lc', ':VimtexClean!<CR>', opts)
-map('n', '<leader>lt', ':VimtexTocToggle<CR>', opts)
-map('n', '<leader>lv', ':VimtexView<CR>', opts)
-map('n', '<leader>le', ':VimtexErrors<CR>', opts)
-map('n', '<leader>ls', ':VimtexStatus<CR>', opts)
-map('n', 'tse', '<Plug>(vimtex-env-toggle-star)', opts)
 
 -- LuaSnip: keep if you use manual jumping
 vim.cmd [[
@@ -94,10 +83,16 @@ map('n', '<leader>fh', ":Pick help<CR>",opts)
 map("n", "<leader>e", function()
   require("oil").open(vim.fn.getcwd())
 end, { desc = "Open Oil in current directory" })
+map("n", "yp", function()
+  local oil = require("oil")
+  local entry = oil.get_cursor_entry()
+  local path = vim.fs.joinpath(oil.get_current_dir(), entry.name)
+  vim.fn.setreg("+",path)
+end, opts, { desc = "Copy Oil entry under cursor to system clipboard" })
 
 --Search Snippets
 local pick = require("mini.pick")
-map("n", "<leader>fs", function()
+map("n", "<leader>sl", function()
   local results = {}
   local files = vim.fn.glob(vim.fn.expand("~/.config/nvim/LuaSnip/tex/") .. "*.lua", false, true)
 
@@ -122,8 +117,62 @@ map("n", "<leader>fs", function()
 
   pick.start({
     source = {
-      name = "Snippets",
+      name = "LaTeX Snippets",
       items = results,
     },
   })
 end, { desc = "Search LaTeX Snippets" })
+map("n", "<leader>st", function()
+  local results = {}
+  local files = vim.fn.glob(vim.fn.expand("~/.config/nvim/LuaSnip/typst/") .. "*.lua", false, true)
+
+  for _, filepath in ipairs(files) do
+    local file = io.open(filepath, "r")
+    if file then
+      local trig, dscr = nil, nil
+      for line in file:lines() do
+        local trig_match = line:match('trig%s*=%s*"([^"]+)"')
+        local dscr_match = line:match('dscr%s*=%s*"([^"]+)"')
+        if trig_match then trig = trig_match end
+        if dscr_match then dscr = dscr_match end
+
+        if trig and dscr then
+          table.insert(results, trig .. " : " .. dscr)
+          trig, dscr = nil, nil
+        end
+      end
+      file:close()
+    end
+  end
+
+  pick.start({
+    source = {
+      name = "Typst Snippets",
+      items = results,
+    },
+  })
+end, { desc = "Search Typst Snippets" })
+
+-- Dictionary integration
+local ok, dict = pcall(require, "dict")
+if ok then
+  -- :Dict [word]  (default: word under cursor)
+  vim.api.nvim_create_user_command("Dict", function(opts)
+    dict.lookup(opts.args ~= "" and opts.args or nil)
+  end, { nargs = "?", desc = "Show dictionary definition in a float" })
+
+  -- Press K to show a definition in text/markdown/help buffers
+  -- (keeps your K for LSP in code files)
+  local dict_ft = { "markdown", "text", "typst", "help" }
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = dict_ft,
+    callback = function()
+      vim.keymap.set({"n","v"}, "K", function() dict.lookup() end,
+        { buffer = true, silent = true, desc = "Dictionary lookup" })
+    end,
+  })
+
+  -- Optional: global mapping on <leader>d
+  vim.keymap.set({"n", "v"}, "<leader>d", function() dict.lookup() end,
+    { silent = true, desc = "Dictionary lookup" })
+end

@@ -7,14 +7,15 @@ vim.pack.add({
   { src = "https://github.com/navarasu/onedark.nvim" },
   { src = "https://github.com/windwp/nvim-autopairs" },
   { src = "https://github.com/akinsho/bufferline.nvim" },
+  { src = "https://github.com/chomosuke/typst-preview.nvim" },
 }, { load = true })
 
 
+require("plugins.config.onedark")
 require("plugins.config.oil")
 require("plugins.config.minipick")
 require("plugins.config.luasnip")
 require("plugins.config.bufferline")
-require("plugins.config.treesitter")
 require("plugins.config.autopairs")
 require("plugins.config.vimtex")
-require("plugins.config.onedark")
+require("plugins.config.preview_typst")

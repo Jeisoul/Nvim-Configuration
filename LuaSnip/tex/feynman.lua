@@ -26,11 +26,11 @@ return {
   \vertex (f1) at (6.0,  1.0) {\(<out1>\)};
   \vertex (f2) at (6.0, -1.0) {\(<out2>\)};
   \diagram*{
-    (i1) -- [fermion, momentum=\(<p1>\)] (a)
-          -- [fermion, momentum=\(<p2>\)] (i2),
-    (a)  -- [<med>, edge label=\(<medlbl>\)] (b), %photon | gluon | boson | charged boson | scalar
-    (f1) -- [fermion, momentum'=\(<k1>\)] (b)
-          -- [fermion, momentum'=\(<k2>\)] (f2),
+    (i1) -- [fermion, momentum=\(<p1>\)] (a),
+    (i2) -- [anti fermion, momentum'=\(<p2>\)] (a),
+    (a)  -- [<med>, momentum'=\(<q>\), edge label=\(<medlbl>\)] (b), %photon | gluon | boson | charged boson | scalar
+    (b)  -- [fermion, momentum=\(<k1>\)] (f1),
+    (b)  -- [anti fermion, momentum'=\(<k2>\)] (f2),
   };
 \end{feynman}
 \end{tikzpicture}
@@ -42,10 +42,11 @@ return {
       out2   = i(5,  "\\mu^+"),
       p1     = i(6,  "p_1"),
       p2     = i(7,  "p_2"),
-      k1     = i(8,  "k_1"),
-      k2     = i(9,  "k_2"),
-      med    = c(10, { t("photon"), t("gluon"), t("boson"), t("charged boson"), t("scalar") }),
-      medlbl = i(11, "\\gamma"),
+      q      = i(8,  "q"),
+      k1     = i(9,  "k_1"),
+      k2     = i(10,  "k_2"),
+      med    = c(11, { t("photon"), t("gluon"), t("boson"), t("charged boson"), t("scalar") }),
+      medlbl = i(12, "\\gamma"),
     })
   ),
 }

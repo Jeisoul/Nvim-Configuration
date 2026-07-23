@@ -19,63 +19,54 @@ local function dynamic_length(args, old_state)
     t(tostring(length))
   })
 end
--- dynamic builder: flat, no nested sn() per row
 local function matrix_dynamic(args, old_state)
   local rows = tonumber(args[1][1]) or 1
   local cols = tonumber(args[2][1]) or 1
-
   local nodes = {}
-  local idx = 1
 
   for r = 1, rows do
+    local row_nodes = {}
     for c = 1, cols do
-      table.insert(nodes, i(idx, ""))  -- cell
-      idx = idx + 1
+      table.insert(row_nodes, i((r - 1) * cols + c, ""))
       if c < cols then
-        table.insert(nodes, t(" & "))
+        table.insert(row_nodes, t(" & "))
       end
     end
+    table.insert(nodes, sn(nil, row_nodes))
     if r < rows then
-      -- newline in LaTeX with a real line break after it
       table.insert(nodes, t({ " \\\\ ", "" }))
     end
   end
 
-  table.insert(nodes, i(0))  -- exit node at the end
-  return sn(nil, nodes, old_state)
+  return sn(nil, nodes)
 end
-
 return{
- s({ trig = "pdv", dscr = "Flexible Partial Derivative", wordTrig = false },
+  s({ trig = "pdv", dscr = "Flexible Partial Derivative", wordTrig = false },
     fmta(
-      [[\pdv<>{<>}<>]],
+      [[
+        \pdv[<>]{<>}<>
+      ]],
       {
-        -- choice: a literal space (to break re-trigger) OR [order]
-        c(1, {
-          sn(nil, { i(1, " ") }),                           -- leaves a space; safe in TeX
-          sn(nil, { t("["), r(1, "ord", i(1, "1")), t("]") })
-        }),
-        i(2, "f"),                                          -- function/expression
-        c(3, {                                              -- "" or "{x}"
+        i(1, "1"),         -- derivative order
+        i(2, "f"),         -- function or expression
+        c(3, {             -- optional variable
           t(""),
-          sn(nil, { t("{"), i(1, "x"), t("}") }),
+          sn(nil, { t("{"), i(1, "x"), t("}") })
         }),
       }
     )
   ),
- s({ trig = "dv", dscr = "Flexible Total Derivative", wordTrig = false },
+  s({ trig = "dv", dscr = "Flexible Total Derivative", wordTrig = false },
     fmta(
-      [[\dv<>{<>}<>]],
+      [[
+        \dv[<>]{<>}<>
+      ]],
       {
-        -- choice: a literal space (to break re-trigger) OR [order]
-        c(1, {
-          sn(nil, { i(1, " ") }),                           -- leaves a space; safe in TeX
-          sn(nil, { t("["), r(1, "ord", i(1, "1")), t("]") })
-        }),
-        i(2, "f"),                                          -- function/expression
-        c(3, {                                              -- "" or "{x}"
+        i(1, "1"),         -- derivative order
+        i(2, "f"),         -- function or expression
+        c(3, {             -- optional variable
           t(""),
-          sn(nil, { t("{"), i(1, "x"), t("}") }),
+          sn(nil, { t("{"), i(1, "x"), t("}") })
         }),
       }
     )
@@ -136,23 +127,13 @@ return{
       { d(1, get_visual) }
     )
   ),
-  s({ trig = "ol", dscr = "Overline.",wordTrig=false },
+  s({ trig = "comp", dscr = "Complement set",wordTrig=false },
     fmta("\\overline{<>}",
       { d(1, get_visual) }
     )
   ),
-  s({ trig = "ul", dscr = "Overline.",wordTrig=false },
-    fmta("\\underline{<>}",
-      { d(1, get_visual) }
-    )
-  ),
-  s({ trig = "vec", dscr = "Vector",wordTrig=false },
-    fmta("\\vec{<>}",
-      { d(1, get_visual) }
-    )
-  ),
-  s({ trig = "til", dscr = "Tilde",wordTrig=false },
-    fmta("\\tilde{<>}",
+  s({ trig = "bar", dscr = "Bar",wordTrig=false },
+    fmta("\\bar{<>}",
       { d(1, get_visual) }
     )
   ),
@@ -163,9 +144,6 @@ return{
   ),
   s({ trig = "star", dscr = "Conjugate",wordTrig=false },
     {t("^{*}")}
-  ),
-  s({ trig = "pri", dscr = "Prime",wordTrig=false },
-    {t("^{\\prime}")}
   ),
   s({ trig = "empt", dscr = "Empty set.",wordTrig=false },
     {t("\\emptyset")}
@@ -216,6 +194,9 @@ return{
       { d(1, get_visual) }
     )
   ),
+  s({ trig = "hbar", dscr = "Planck's constant.",wordTrig=false },
+    {t("\\hbar")}
+  ),
   s({ trig = "par", dscr = "Del symbol.",wordTrig=false },
     {t("\\partial")}
   ),
@@ -258,13 +239,13 @@ return{
     t({"",""}),
     d(2, dynamic_length,{1})
   }),
-  s({ trig = "matrix(%d+)x(%d+)", regTrig = true, desc = "\\mqty r x c" }, {
+  s({ trig = "matrix(%d+)x(%d+)", regTrig = true, desc = "\\mqty r x c "}, {
     t("\\mqty("),
     d(1, function(_, snip)
       local r = tonumber(snip.captures[1]) or 1
       local c = tonumber(snip.captures[2]) or 1
-      return matrix_dynamic({ { tostring(r) }, { tostring(c) } })
-    end, {}),
+      return matrix_dynamic({ { tostring(r)}, { tostring(c) } })
+    end,{}),
     t(")"),
   }),
 }

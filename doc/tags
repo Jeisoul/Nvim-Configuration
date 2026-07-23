@@ -1,0 +1,14 @@
+:CommentToggle	comment.txt	/*:CommentToggle*
+:Floaterminal	floaterminal.txt	/*:Floaterminal*
+:Pdf2Jpg	latex2jpg.txt	/*:Pdf2Jpg*
+:TypstBuild	typst-local.txt	/*:TypstBuild*
+:TypstBuildPrompt	typst-local.txt	/*:TypstBuildPrompt*
+any	latex2jpg.txt	/*any*
+commenttoggle	comment.txt	/*commenttoggle*
+commenttoggle-maps	comment.txt	/*commenttoggle-maps*
+commenttoggle.txt	comment.txt	/*commenttoggle.txt*
+floaterminal	floaterminal.txt	/*floaterminal*
+floaterminal-maps	floaterminal.txt	/*floaterminal-maps*
+typst-local	typst-local.txt	/*typst-local*
+typst-local-maps	typst-local.txt	/*typst-local-maps*
+typst-local.txt	typst-local.txt	/*typst-local.txt*

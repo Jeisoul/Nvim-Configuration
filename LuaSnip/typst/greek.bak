@@ -18,7 +18,7 @@ return{
   s({trig=";b",snippetType="autosnippet",wordTrig=false}, t("\\beta")),
   s({trig=";g",snippetType="autosnippet",wordTrig=false}, t("\\gamma")),
   s({trig=";d",snippetType="autosnippet",wordTrig=false}, t("\\delta")),
-  s({trig=";e",snippetType="autosnippet",wordTrig=false}, t("\\varepsilon")),
+  s({trig=";e",snippetType="autosnippet",wordTrig=false}, t("\\epsilon")),
   s({trig=";v",snippetType="autosnippet",wordTrig=false}, t("\\theta")),
   s({trig=";l",snippetType="autosnippet",wordTrig=false}, t("\\lambda")),
   s({trig=";m",snippetType="autosnippet",wordTrig=false}, t("\\mu")),
@@ -36,7 +36,7 @@ return{
   s({trig=";V",snippetType="autosnippet",wordTrig=false}, t("\\Theta")),
   s({trig=";L",snippetType="autosnippet",wordTrig=false}, t("\\Lambda")),
   s({trig=";X",snippetType="autosnippet",wordTrig=false}, t("\\Xi")),
-  s({trig=";P",snippetType="autosnippet",wordTrig=false}, t("\\Pi")),
+  s({trig=";P",snippetType="autosnippet",wordTrig=false}, t("\\Phi")),
   s({trig=";S",snippetType="autosnippet",wordTrig=false}, t("\\Sigma")),
   s({trig=";F",snippetType="autosnippet",wordTrig=false}, t("\\Phi")),
   s({trig=";O",snippetType="autosnippet",wordTrig=false}, t("\\Omega")),
@@ -44,6 +44,5 @@ return{
   s({trig=";i",snippetType="autosnippet",wordTrig=false}, t("\\iota")),
   s({trig=";h",snippetType="autosnippet",wordTrig=false}, t("\\eta")),
   s({trig=";k",snippetType="autosnippet",wordTrig=false}, t("\\kappa")),
-  s({trig=";z",snippetType="autosnippet",wordTrig=false}, t("\\zeta")),
 }
 

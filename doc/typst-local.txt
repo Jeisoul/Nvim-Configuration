@@ -1,0 +1,25 @@
+*typst-local.txt*    Local Typst helpers
+
+==============================================================================
+Typst Commands                                                *typst-local*
+
+:TypstBuild [out.pdf]                                         *:TypstBuild*
+    Compile the current Typst buffer into a PDF.
+    - If [out.pdf] is omitted, defaults to {currentfile}.pdf
+      (e.g. foo.typ → foo.pdf in the same directory).
+    - If a relative filename is given, it is placed next to the source file.
+    - If an absolute path is given, it is used directly.
+    - Requires the `typst` binary to be in $PATH.
+
+:TypstBuildPrompt                                             *:TypstBuildPrompt*
+    Prompt for the name/path of the output PDF.
+    - Default suggestion is {basename}.pdf (e.g. main.typ → main.pdf).
+    - If you enter only a filename (without a `/`), the PDF is placed in the
+      same directory as the source file.
+    - If you enter an absolute path, that is used directly.
+    - Press <Enter> without typing anything to accept the default.
+
+==============================================================================
+Key mappings (buffer-local)                                    *typst-local-maps*
+    <leader>lc   → :TypstBuildPrompt
+    <leader>lC   → :TypstBuild

@@ -1,0 +1,33 @@
+==============================================================================
+Floating Terminal                                              *floaterminal*
+
+:Floaterminal                                                  *:Floaterminal*
+    Toggle a floating terminal window centered on the editor.
+
+    Behavior:
+    - If no floating window is active, creates a centered scratch buffer and
+      opens it as a terminal.
+    - If the buffer is not already a terminal, starts one and names it
+      "Floaterminal".
+    - Sets window transparency (winblend=10) and applies highlight groups
+      `NormalFloat` / `FloatBorder`.
+    - Opens with a rounded border.
+    - Automatically enters insert mode when the terminal is shown.
+    - If a floating terminal is already visible, it is hidden instead.
+
+    State:
+    - Keeps a persistent buffer handle, so reopening restores the same
+      terminal session instead of creating a new one.
+    - Window validity is checked; if closed, a new floating window is
+      created.
+
+    Use cases:
+    - Quick access to a terminal without splitting or switching tabs.
+    - Lightweight scratch terminal that follows your Neovim session.
+
+------------------------------------------------------------------------------
+Mappings                                                   *floaterminal-maps*
+    <leader>ft   → :Floaterminal
+        Toggle floating terminal from normal or terminal mode.
+
+

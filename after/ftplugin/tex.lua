@@ -16,5 +16,14 @@ end
 
 map("n", "j", "gj")
 map("n", "k", "gk")
-map("v", "j", "gj")
-map("v", "k", "gk")
+map("x", "j", "gj")
+map("x", "k", "gk")
+-- VimTeX
+map('n', '<leader>ll', ':VimtexCompile<CR>', opts)
+map('n', '<leader>lk', ':VimtexStop<CR>', opts)
+map('n', '<leader>lt', ':VimtexTocToggle<CR>', opts)
+map('n', '<leader>lv', ':VimtexView<CR>', opts)
+map('n', '<leader>le', ':VimtexErrors<CR>', opts)
+map('n', '<leader>ls', ':VimtexStatus<CR>', opts)
+map('n', 'tse', '<Plug>(vimtex-env-toggle-star)', opts)
+

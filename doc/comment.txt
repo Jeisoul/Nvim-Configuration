@@ -1,0 +1,38 @@
+*commenttoggle.txt*   Simple comment toggler
+
+==============================================================================
+CommentToggle                                                   *commenttoggle*
+
+:CommentToggle [range]                                      *:CommentToggle*
+    Toggle a simple, line-oriented comment prefix at column 0.
+
+    Supported filetypes:
+        - lua    → "-- "
+        - python → "# "
+        - tex    → "% "
+        - typst  → "// "
+
+    Behavior:
+    - When a line begins with the filetype’s comment prefix, that prefix is
+      removed.
+    - Otherwise, the prefix is inserted at the beginning of the line.
+    - Works on a single line or a given line range.
+    - For visual selections, the selected lines are toggled.
+
+    Usage examples:
+        :CommentToggle          → toggle comment on current line
+        :5,10CommentToggle      → toggle lines 5 through 10
+        (visual mode)           → select lines and press <leader>k
+
+    Notes:
+    - Operates only at column 0 — indented lines are still prefixed at the
+      very start.
+    - Has no effect if the current filetype is unsupported.
+
+------------------------------------------------------------------------------
+Mappings                                                 *commenttoggle-maps*
+    <leader>k   (normal mode) → Toggle comment on current line
+    <leader>k   (visual mode) → Toggle comments on selected lines
+
+==============================================================================
+

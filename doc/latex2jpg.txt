@@ -1,0 +1,25 @@
+:Pdf2Jpg                                                        *:Pdf2Jpg*
+    Convert the PDF corresponding to the current source file into a JPG
+    image, using the external `pdf2img` program.
+
+    Intended use:
+    - Designed for TeX workflows: if you are editing `foo.tex`, and a
+      `foo.pdf` has been generated (via LaTeX compilation), this command
+      will produce `foo.jpg`.
+
+    Behavior:
+    - Derives the stem from the current buffer’s filename.
+      Example: buffer `diagram1.tex` → looks for `diagram1.pdf`.
+    - Runs: `pdf2img diagram1.pdf jpg 600`
+      (generates a 600 DPI JPG).
+    - Output written as `diagram1.jpg` in the same directory.
+
+    Generality:
+    - Will work with *any* file type, as long as a sibling `.pdf` with
+      the same stem exists.
+    - If no `.pdf` is present, or the buffer has no filename, the command
+      reports an error.
+
+    Requirements:
+    - The external tool `pdf2img` must be in $PATH.
+
