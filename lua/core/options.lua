@@ -62,17 +62,17 @@ end
 
 -- Tweak WinSeparator highlight
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ffffff", bold = true })
-
 vim.g.clipboard = {
-  name = "xclip",
+  name = "wl-clipboard",
   copy = {
-    ["+"] = { "xclip", "-selection", "clipboard"},
-    ["*"] = { "xclip", "-selection", "clipboard"},
+    ["+"] = { "wl-copy" },
+    ["*"] = { "wl-copy", "--primary" },
   },
   paste = {
-    ["+"] = { "xclip", "-selection", "clipboard", "-o" },
-    ["*"] = { "xclip", "-selection", "clipboard", "-o" },
+    ["+"] = { "wl-paste", "--no-newline" },
+    ["*"] = { "wl-paste", "--primary", "--no-newline" },
   },
   cache_enabled = 0,
 }
+
 opt.clipboard = "unnamedplus"
