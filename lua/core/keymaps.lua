@@ -176,3 +176,118 @@ if ok then
   vim.keymap.set({"n", "v"}, "<leader>d", function() dict.lookup() end,
     { silent = true, desc = "Dictionary lookup" })
 end
+
+
+local function swap_underline_overline()
+  local visual_mode = vim.fn.mode()
+
+  local pos1 = vim.fn.getpos("v")
+  local pos2 = vim.fn.getpos(".")
+
+  local start_pos, end_pos
+
+  if pos1[2] < pos2[2]
+      or (pos1[2] == pos2[2] and pos1[3] <= pos2[3]) then
+    start_pos = pos1
+    end_pos = pos2
+  else
+    start_pos = pos2
+    end_pos = pos1
+  end
+
+  local start_row = start_pos[2] - 1
+  local end_row = end_pos[2] - 1
+
+  local start_col
+  local end_col
+
+  if visual_mode == "V" then
+    -- Visual Line mode: use the entire selected lines
+    start_col = 0
+
+    local end_line = vim.api.nvim_buf_get_lines(
+      0,
+      end_row,
+      end_row + 1,
+      false
+    )[1] or ""
+
+    end_col = #end_line
+  else
+    -- Ordinary character-wise Visual mode
+    start_col = start_pos[3] - 1
+
+    local end_line = vim.api.nvim_buf_get_lines(
+      0,
+      end_row,
+      end_row + 1,
+      false
+    )[1] or ""
+
+    end_col = math.min(end_pos[3], #end_line)
+  end
+
+  local lines = vim.api.nvim_buf_get_text(
+    0,
+    start_row,
+    start_col,
+    end_row,
+    end_col,
+    {}
+  )
+
+  local original = table.concat(lines, "\n")
+  local text = original
+
+  text = text:gsub("\\underline", "__UNDERLINE_TMP__")
+  text = text:gsub("\\overline", "\\underline")
+  text = text:gsub("__UNDERLINE_TMP__", "\\overline")
+
+  if text == original then
+    vim.notify("No \\underline or \\overline in selection")
+    return
+  end
+
+  vim.api.nvim_buf_set_text(
+    0,
+    start_row,
+    start_col,
+    end_row,
+    end_col,
+    vim.split(text, "\n", { plain = true })
+  )
+end
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "tex",
+  callback = function()
+    map("x", "<leader>uo", swap_underline_overline, {
+      buffer = true,
+      silent = true,
+      desc = "Swap underline and overline",
+    })
+  end,
+})
+vim.keymap.set("n", "<leader>t", function()
+    if vim.bo.filetype ~= "c" then
+        return
+    end
+
+    vim.cmd("wall")
+
+    local cmd = "gcc -std=c23 -Wall -Wextra -g solution.c test.c -o test -lcriterion -lm && ./test"
+
+    -- Reuse the test terminal if it already exists
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.b[buf].codewars_test then
+            if vim.api.nvim_buf_is_valid(buf) then
+                vim.api.nvim_buf_delete(buf, { force = true })
+            end
+        end
+    end
+
+    -- Open the test terminal
+    vim.cmd("botright split")
+    vim.cmd("terminal " .. cmd)
+
+    vim.b.codewars_test = true
+end, { desc = "Compile and run C tests" })

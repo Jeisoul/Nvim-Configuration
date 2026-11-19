@@ -156,6 +156,11 @@ return{
       { d(1, get_visual) }
     )
   ),
+  s({ trig = "dang", dscr = "Double angle Brackets",wordTrig=false },
+    fmta("\\langle\\!\\langle <>\\rangle\\!\\rangle",
+      { d(1, get_visual) }
+    )
+  ),
   s({ trig = "sla", dscr = "Slashed",wordTrig=false },
     fmta("\\slashed{<>}",
       { d(1, get_visual) }
